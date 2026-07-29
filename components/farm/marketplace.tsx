@@ -78,14 +78,15 @@ export function Marketplace() {
       ) : (
         <div className="grid grid-cols-2 gap-3">
           {ASSETS.map((a) => {
-            const total = Math.ceil(a.basePrice * (1 + MARKET_FEE))
+            const itemPrice = (a as any).basePrice ?? (a as any).price ?? (a as any).cost ?? 0
+            const total = Math.ceil(itemPrice * (1 + MARKET_FEE))
             return (
               <div key={a.id} className="bg-card rounded-xl border border-border p-3 text-center">
                 <div className="text-4xl mb-1 animate-floaty">{a.emoji}</div>
                 <div className="font-bold text-foreground text-sm">{a.name}</div>
                 <div className="text-[11px] text-secondary mb-2">{total} عملة</div>
                 <button
-                  onClick={() => setPending({ defId: a.id, price: a.basePrice })}
+                  onClick={() => setPending({ defId: a.id, price: itemPrice })}
                   className="w-full bg-primary text-primary-foreground text-xs font-bold rounded-lg py-2 active:scale-95"
                 >
                   شراء
