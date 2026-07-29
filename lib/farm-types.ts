@@ -75,8 +75,24 @@ export interface GameState {
   lastHealthCheckAt: number
 }
 
-// جعل خصائص GameState اختيارية داخل FarmState لحل خطأ التهيئة في الـ Hook
-export interface FarmState extends Partial<GameState> {
+// جعل كل خصائص FarmState اختيارية لمنع أي خطأ ناقص في الـ Hook
+export interface FarmState {
+  coins?: number
+  xp?: number
+  completedTasks?: string[]
+  assets?: OwnedAsset[]
+  leases?: LandLease[]
+  craftedGoods?: Record<string, number>
+  factoryJobs?: FactoryJob[]
+  listings?: MarketListing[]
+  adsWatchedToday?: number
+  lastAdDate?: string
+  lastTaskResetDate?: string
+  workerStamina?: number
+  lastStaminaUpdateAt?: number
+  hasSeenOnboarding?: boolean
+  preferredLanguage?: string
+  lastHealthCheckAt?: number
   gridColumns?: number
   gridRows?: number
   placedItems?: PlacedItem[]
