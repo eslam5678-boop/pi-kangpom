@@ -56,6 +56,7 @@ export function LandBureau() {
           const active = isLandActive(tier.id)
           const count = state.assets.filter((a) => a.landId === tier.id && !a.dead).length
           const expired = lease?.leased && !active
+          const costPi = (tier as any).costPi ?? (tier as any).cost ?? (tier as any).price ?? 0
 
           return (
             <div
@@ -87,9 +88,9 @@ export function LandBureau() {
                 </div>
                 <div className="text-left shrink-0">
                   <div className="text-primary font-bold">
-                    {tier.costPi === 0 ? "مجاني" : `${tier.costPi} π`}
+                    {costPi === 0 ? "مجاني" : `${costPi} π`}
                   </div>
-                  <div className="text-[10px] text-muted-foreground">{tier.period}</div>
+                  <div className="text-[10px] text-muted-foreground">{(tier as any).period}</div>
                 </div>
               </div>
 
@@ -98,16 +99,16 @@ export function LandBureau() {
               ) : (
                 <button
                   disabled={busy === tier.id}
-                  onClick={() => handleLease(tier.id, tier.costPi)}
+                  onClick={() => handleLease(tier.id, costPi)}
                   className="mt-3 w-full bg-primary text-primary-foreground font-bold rounded-lg py-2.5 text-sm disabled:opacity-50 active:scale-95 transition-transform"
                 >
                   {busy === tier.id
                     ? "جارٍ الدفع عبر باي..."
                     : expired
                       ? "تجديد الإيجار"
-                      : tier.costPi === 0
+                      : costPi === 0
                         ? "تفعيل مجاني"
-                        : `استئجار بـ ${tier.costPi} باي`}
+                        : `استئجار بـ ${costPi} باي`}
                 </button>
               )}
             </div>
