@@ -502,6 +502,7 @@ export function FarmProvider({ children }: { children: ReactNode }) {
         dead: false,
         landId: targetLand.id,
         storedProduct: 0,
+        health: 100,
       }
       return {
         ...prev,
