@@ -66,12 +66,14 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
   }
 
   const content = getStepContent()
+  const isLastStep = step === STEPS.length - 1
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center backdrop-blur-sm">
-      <div className="relative w-full max-w-md mx-auto px-4">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center backdrop-blur-sm p-4">
+      <div className="relative w-full max-w-md mx-auto">
         {/* Parchment scroll background */}
-        <div className="relative bg-gradient-to-b from-amber-100 via-yellow-50 to-amber-50 rounded-3xl border-4 border-amber-800 shadow-2xl p-8 space-y-6"
+        <div 
+          className="relative bg-gradient-to-b from-amber-100 via-yellow-50 to-amber-50 rounded-3xl border-4 border-amber-800 shadow-2xl p-8 space-y-6"
           style={{
             backgroundImage: `
               radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
@@ -89,110 +91,13 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
           </div>
 
           {/* Content */}
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-3">
             <h2 className="text-2xl font-bold text-amber-900">{content?.title}</h2>
             <p className="text-sm text-amber-800 leading-relaxed">{content?.desc}</p>
           </div>
 
-          {/* Step indicators */}
-          <div className="flex justify-center gap-2">
-            {STEPS.map((_, idx) => (
-              <div
-                key={idx}
-                className={`h-2 rounded-full transition-all ${
-                  idx === step ? "bg-amber-900 w-6" : "bg-amber-300 w-2"
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Buttons */}
-          <div className="flex gap-3 justify-center">
-            {step > 0 && (
-              <button
-                onClick={handlePrev}
-                className="pharaonic-btn px-6 py-2 text-sm rounded-lg"
-              >
-                ← السابق
-              </button>
-            )}
-            <button
-              onClick={handleNext}
-              className="pharaonic-btn px-6 py-2 text-sm rounded-lg flex-1"
-            >
-              {step === STEPS.length - 1 ? t("onboarding_start") : t("onboarding_next")}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-  }
-
-  const getStepContent = () => {
-    switch (currentStep) {
-      case "welcome":
-        return {
-          title: t("onboarding_welcome_title"),
-          desc: t("onboarding_welcome_desc"),
-          emoji: "🐪",
-        }
-      case "assets":
-        return {
-          title: t("onboarding_assets_title"),
-          desc: t("onboarding_assets_desc"),
-          emoji: "🐔",
-        }
-      case "vitality":
-        return {
-          title: t("onboarding_vitality_title"),
-          desc: t("onboarding_vitality_desc"),
-          emoji: "❤️",
-        }
-      case "expansion":
-        return {
-          title: t("onboarding_expansion_title"),
-          desc: t("onboarding_expansion_desc"),
-          emoji: "🏛️",
-        }
-    }
-  }
-
-  const content = getStepContent()
-  const isLastStep = step === STEPS.length - 1
-
-  return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-card rounded-3xl border-4 border-primary max-w-sm w-full overflow-hidden shadow-2xl">
-        {/* Header with Uncle Shaheen character */}
-        <div className="bg-gradient-to-r from-primary to-secondary p-6 text-center">
-          <div className="text-7xl mb-3 animate-floaty">{content.emoji}</div>
-          <h2 className="text-2xl font-bold text-primary-foreground">{content.title}</h2>
-        </div>
-
-        {/* Content */}
-        <div className="p-6 space-y-4">
-          <p className="text-sm text-foreground leading-relaxed">{content.desc}</p>
-
-          {/* Visual indicator for current step */}
-          <div className="flex justify-center gap-2 py-4">
-            {STEPS.map((_, idx) => (
-              <div
-                key={idx}
-                className={`h-2 rounded-full transition-all ${
-                  idx === step
-                    ? "w-8 bg-primary"
-                    : idx < step
-                    ? "w-2 bg-secondary"
-                    : "w-2 bg-muted"
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Step-specific content */}
-          <div className="bg-background/50 rounded-lg p-3 text-xs text-muted-foreground space-y-2">
+          {/* Step-specific details box */}
+          <div className="bg-amber-900/5 rounded-xl p-3 text-xs text-amber-900/80 space-y-1.5 border border-amber-900/10">
             {currentStep === "assets" && (
               <>
                 <p>✓ الدجاجات تنتج البيض</p>
@@ -214,24 +119,40 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
                 <p>✓ المدفوع: سعات أكبر بمقابل عملات</p>
               </>
             )}
+            {currentStep === "welcome" && (
+              <p className="text-center font-medium">مرحباً بك في مزرعة عم شاهين الملكية!</p>
+            )}
           </div>
-        </div>
 
-        {/* Footer with buttons */}
-        <div className="bg-muted/20 px-6 py-4 flex justify-between">
-          <button
-            onClick={() => setStep(Math.max(0, step - 1))}
-            disabled={step === 0}
-            className="px-4 py-2 rounded-lg text-sm font-bold text-muted-foreground disabled:opacity-30 transition-opacity"
-          >
-            السابق
-          </button>
-          <button
-            onClick={handleNext}
-            className="pharaonic-btn px-6 py-2 rounded-lg text-sm font-bold text-primary-foreground"
-          >
-            {isLastStep ? t("onboarding_start") : t("onboarding_next")}
-          </button>
+          {/* Step indicators */}
+          <div className="flex justify-center gap-2">
+            {STEPS.map((_, idx) => (
+              <div
+                key={idx}
+                className={`h-2 rounded-full transition-all ${
+                  idx === step ? "bg-amber-900 w-6" : "bg-amber-300 w-2"
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-3 justify-center pt-2">
+            {step > 0 && (
+              <button
+                onClick={handlePrev}
+                className="pharaonic-btn px-6 py-2.5 text-sm rounded-xl font-bold border border-amber-800/40 text-amber-900 hover:bg-amber-900/10 transition-colors"
+              >
+                السابق
+              </button>
+            )}
+            <button
+              onClick={handleNext}
+              className="pharaonic-btn px-6 py-2.5 text-sm rounded-xl font-bold flex-1 bg-amber-900 text-amber-50 hover:bg-amber-800 transition-colors shadow-md"
+            >
+              {isLastStep ? t("onboarding_start") : t("onboarding_next")}
+            </button>
+          </div>
         </div>
       </div>
     </div>
