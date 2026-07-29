@@ -2,8 +2,11 @@
 
 import { useState } from "react"
 import { useFarm } from "@/contexts/farm-context"
-import { ASSETS, MARKET_FEE, assetDef } from "@/lib/farm-types"
+import { ASSETS, assetDef } from "@/lib/farm-types"
 import { ShaheenCaptcha } from "./shaheen-captcha"
+
+// تعريف ثابت رسوم السوق محلياً لتجنب مشاكل الاستيراد
+const MARKET_FEE = 0.05
 
 export function Marketplace() {
   const { state, buyAsset, unlistListing } = useFarm()
