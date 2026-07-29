@@ -1,10 +1,14 @@
-import { PlacedItem, SoilState, GrowthStage } from "../app/types";
+import { PlacedItem } from "../lib/farm-types"; // تأكد إن ده المسار الصحيح للملف عندك
+
+export type SoilState = 'raw' | 'plowed' | 'watered' | 'planted';
+export type GrowthStage = 0 | 1 | 2 | 3;
 
 /**
  * 1. حرث الأرض: يحول الأرض الخام إلى أرض محروثة
  */
 export function plowSoil(item: PlacedItem): PlacedItem {
-  if (item.type !== 'soil' && item.soilState !== 'raw') return item;
+  // تم تحويل && إلى || لمنع أي خطأ منطقي عند التفاعل مع أي عنصر غير التربة
+  if (item.type !== 'soil' || item.soilState !== 'raw') return item;
   return {
     ...item,
     soilState: 'plowed',
