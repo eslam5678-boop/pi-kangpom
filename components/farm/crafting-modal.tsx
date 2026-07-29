@@ -23,8 +23,8 @@ export const CraftingModal: React.FC<CraftingModalProps> = ({
   // إذا كانت النافذة مغلقة أو لم يتم تحديد مبنى، لا نقوم بعرض أي شيء
   if (!isOpen || !buildingId) return null;
 
-  // جلب بيانات المبنى والوصفات الخاصة به من ملف البيانات الجديد
-  const buildingData = CRAFTING_BUILDINGS[buildingId];
+  // جلب بيانات المبنى والوصفات الخاصة به مع توضيح الخاصية الاختيارية description لـ TypeScript
+  const buildingData = CRAFTING_BUILDINGS[buildingId] as { name?: string; description?: string } | undefined;
   const recipes = getRecipesForBuilding(buildingId);
 
   // دالة مساعدة لتنسيق وتلوين شارة الندرة (Rarity Badge)
