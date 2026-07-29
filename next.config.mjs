@@ -1,14 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
+  // السماح لمتصفح Pi وعرض التطبيق داخل الإطارات (Iframes)
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Methods", value: "GET, POST, PUT, DELETE, OPTIONS" },
+          { key: "Access-Control-Allow-Headers", value: "X-Requested-With, Content-Type, Authorization" },
+          { key: "Content-Security-Policy", value: "frame-ancestors *;" },
+        ],
+      },
+    ];
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  images: {
-    unoptimized: true,
-  },
-}
+};
 
-export default nextConfig
+export default nextConfig;
