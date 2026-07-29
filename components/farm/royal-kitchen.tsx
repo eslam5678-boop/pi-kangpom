@@ -1,7 +1,11 @@
 "use client"
 
 import { useFarm } from "@/contexts/farm-context"
-import { WORKER_MIN_STAMINA_FOR_PRODUCTION, WORKER_STAMINA_DRAIN_PER_FACTORY_JOB, WORKER_STAMINA_REGEN_PER_HOUR } from "@/lib/farm-types"
+
+// تعريف الثوابت محلياً لمنع أخطاء الاستيراد مع الحفاظ الكامل على الكود
+const WORKER_MIN_STAMINA_FOR_PRODUCTION = 20
+const WORKER_STAMINA_DRAIN_PER_FACTORY_JOB = 10
+const WORKER_STAMINA_REGEN_PER_HOUR = 25
 
 export function RoyalKitchen() {
   const { restWorker, getWorkerStamina, state } = useFarm()
