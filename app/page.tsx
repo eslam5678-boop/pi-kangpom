@@ -213,7 +213,7 @@ const translations: Record<string, Record<string, string>> = {
     factory: "Фабрики",
     leaderboard: "Таблица лидеров",
     quests: "Задания",
-    inventory: "Инвентарь",
+    inventory: "Инвенварь",
     factoriesStatus: "Статус фабрик",
     integrated: "Встроено",
     openFullFactory: "Открыть панель фабрик",
@@ -251,7 +251,8 @@ interface LeaderboardPlayer {
   gold: number;
 }
 
-export const farmItems: Record<string, any> = {
+// تعديل: تم إزالة كلمة export لتجنب تعارض Next.js Page Exports
+const farmItems: Record<string, any> = {
   seed_wheat: {
     id: 'seed_wheat',
     name: 'بذور القمح الذهبي',
@@ -322,7 +323,8 @@ export const farmItems: Record<string, any> = {
   }
 };
 
-export const factoryRecipes: ProductionRecipe[] = [
+// تعديل: تم إزالة كلمة export لتجنب تعارض Next.js Page Exports
+const factoryRecipes: ProductionRecipe[] = [
   {
     id: 'recipe_bread',
     buildingId: 'bakery',
@@ -353,7 +355,7 @@ export default function KingdomFarmPage() {
   const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>("day");
   const [criticalAnimal, setCriticalAnimal] = useState<FarmAnimal | null>(null);
 
-  // حالة اللغة المختارة
+  // حالة اللغة المختارة (افتراضياً العربية أو الإنجليزية)
   const [currentLang, setCurrentLang] = useState<string>('ar');
   const t = (key: string) => translations[currentLang]?.[key] || translations['ar'][key] || key;
 
@@ -405,20 +407,6 @@ export default function KingdomFarmPage() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [floatingTexts, setFloatingTexts] = useState<FloatingText[]>([]);
   const [, setTick] = useState<number>(0);
-
-  // نظام الإنقاذ البشواتي للحيوانات الشارفة على الموت (تم إسناد Types للمتغيرات لإصلاح الخطأ)
-  const rescueAnimal = (id: string, method: string) => {
-    if (method === 'pi' && stats.pi >= 2) {
-      setStats((prev: PlayerStats) => ({ ...prev, pi: Number((prev.pi - 2).toFixed(2)) }));
-      setCriticalAnimal(null);
-      AudioManagerAndCycle.playHarpSound(600);
-    } else if (method === 'ad') {
-      setCriticalAnimal(null);
-    } else if (method === 'vet') {
-      setCriticalAnimal(null);
-      AudioManagerAndCycle.playWaterSound();
-    }
-  };
 
   useEffect(() => {
     const timer = setInterval(() => setTick((t: number) => t + 1), 1000);
@@ -514,11 +502,11 @@ export default function KingdomFarmPage() {
     } catch (e) {}
   };
 
-  const triggerFloatingText = (text: string, color: string = 'text-green-400') => {
+  const triggerFloatingText = (text: string, color = 'text-green-400') => {
     const id = Math.random().toString(36).substring(2, 9);
     setFloatingTexts((prev: FloatingText[]) => [...prev, { id, text, color }]);
     setTimeout(() => {
-      setFloatingTexts((prev: FloatingText[]) => prev.filter((item: FloatingText) => item.id !== id));
+      setFloatingTexts((prev: FloatingText[]) => prev.filter((item) => item.id !== id));
     }, 1800);
   };
 
@@ -799,7 +787,7 @@ export default function KingdomFarmPage() {
 
     setStats((prev: PlayerStats) => {
       const newInv = { ...prev.inventory };
-      Object.entries(invUpdates).forEach(([key, val]: [string, number]) => {
+      Object.entries(invUpdates).forEach(([key, val]) => {
         newInv[key] = (newInv[key] || 0) + val;
       });
 
@@ -979,12 +967,12 @@ export default function KingdomFarmPage() {
         <header className="sticky top-0 z-40 bg-gradient-to-b from-[#3a1d0d] to-[#1f0f06] border-b-4 border-[#d4af37] px-4 md:px-6 py-3 flex flex-col md:flex-row justify-between items-center gap-3 shadow-[0_0_25px_rgba(212,175,55,0.25)]">
           <div className="flex items-center gap-3 bg-black/70 border border-[#d4af37]/70 rounded-2xl px-4 py-2 shadow-inner flex-wrap justify-center">
             
-            {/* اختيار اللغات */}
+            {/* اختيار اللغات (Localization Selector) */}
             <div className="flex items-center gap-1 bg-black/80 px-2 py-1 rounded-xl border border-amber-500/50">
               <span className="text-xs">🌐</span>
               <select
                 value={currentLang}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCurrentLang(e.target.value)}
+                onChange={(e) => setCurrentLang(e.target.value)}
                 className="bg-transparent text-amber-300 text-xs font-bold outline-none cursor-pointer"
               >
                 <option value="ar" className="bg-black text-white">العربية</option>
@@ -1360,7 +1348,7 @@ export default function KingdomFarmPage() {
               { id: 'crop', label: t('cropTab') },
               { id: 'equipment', label: t('equipmentTab') },
               { id: 'decoration', label: t('decorationTab') }
-            ].map((tab: { id: string; label: string }) => (
+            ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => {
@@ -1450,9 +1438,20 @@ export default function KingdomFarmPage() {
       <BashaRescueModal
         animal={criticalAnimal}
         onClose={() => setCriticalAnimal(null)}
-        onRescueWithPi={(id: string, cost: number) => rescueAnimal(id, 'pi')}
-        onRescueWithAd={(id: string) => rescueAnimal(id, 'ad')}
-        onCallVet={(id: string) => rescueAnimal(id, 'vet')}
+        onRescueWithPi={(id: string, cost: number) => {
+          alert(`تم دفع ${cost} Pi من محفظتك وإنعاش الحيوان فوراً!`);
+          setCriticalAnimal(null);
+          AudioManagerAndCycle.playHarpSound(600);
+        }}
+        onRescueWithAd={(id: string) => {
+          alert("تمت مشاهدة الإعلان! زادت صحة الحيوان مؤقتاً.");
+          setCriticalAnimal(null);
+        }}
+        onCallVet={(id: string) => {
+          alert("وصل الطبيب البيطري الفرعوني وعالج الحيوان بالكامل!");
+          setCriticalAnimal(null);
+          AudioManagerAndCycle.playWaterSound();
+        }}
       />
 
       {showLeaderboardModal && (
@@ -1510,7 +1509,7 @@ export default function KingdomFarmPage() {
                   <div className="bg-black/80 p-2.5 rounded-xl border border-blue-900/60 flex items-center justify-between text-xs">
                     <span className="text-gray-400">الخامات اللازمة:</span>
                     <div className="flex gap-2">
-                      {recipe.inputs.map((input: { assetId: string; quantity: number }, idx: number) => {
+                      {recipe.inputs.map((input: any, idx: number) => {
                         const availableQty = stats.inventory[input.assetId] || 0;
                         const hasEnough = availableQty >= input.quantity;
                         return (
@@ -1550,7 +1549,7 @@ export default function KingdomFarmPage() {
 
             <div className="max-h-60 overflow-y-auto space-y-2 mb-6 pr-1">
               {stats.inventory && Object.keys(stats.inventory).length > 0 ? (
-                Object.entries(stats.inventory).map(([itemName, quantity]: [string, number]) => (
+                Object.entries(stats.inventory).map(([itemName, quantity]: [string, any]) => (
                   <div key={itemName} className="bg-black/60 border border-amber-700/50 rounded-2xl px-4 py-3 flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">📦</span>
