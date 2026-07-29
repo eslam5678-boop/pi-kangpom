@@ -234,3 +234,7 @@ export function resetDailyAds(state: GameState): GameState {
     lastAdDate: today(),
   }
 }
+
+// السطرين المضافين لحل مشكلة الـ Hook وتجنب أي خطأ Build
+export type FarmState = GameState;
+export type PlacedItem = OwnedAsset;
