@@ -213,7 +213,7 @@ const translations: Record<string, Record<string, string>> = {
     factory: "Фабрики",
     leaderboard: "Таблица лидеров",
     quests: "Задания",
-    inventory: "Инвентарь",
+    inventory: "Инвенварь",
     factoriesStatus: "Статус фабрик",
     integrated: "Встроено",
     openFullFactory: "Открыть панель фабрик",
@@ -251,7 +251,7 @@ interface LeaderboardPlayer {
   gold: number;
 }
 
-export const farmItems: Record<string, any> = {
+const farmItems: Record<string, any> = {
   seed_wheat: {
     id: 'seed_wheat',
     name: 'بذور القمح الذهبي',
@@ -322,7 +322,7 @@ export const farmItems: Record<string, any> = {
   }
 };
 
-export const factoryRecipes: ProductionRecipe[] = [
+const factoryRecipes: ProductionRecipe[] = [
   {
     id: 'recipe_bread',
     buildingId: 'bakery',
