@@ -12,7 +12,6 @@ export function DailyTasks() {
 
   // Check if tasks have been reset today (comparing with last reset date)
   const tasksResetToday = state.lastTaskResetDate === today
-  const resetDateObj = new Date(state.lastTaskResetDate + "T00:00:00Z")
 
   const getTaskStatus = (taskId: string) => {
     return state.completedTasks.includes(taskId)
