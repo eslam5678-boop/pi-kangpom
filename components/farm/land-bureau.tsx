@@ -4,15 +4,21 @@ import { useFarm } from "@/contexts/farm-context"
 import { LAND_TIERS } from "@/lib/farm-types"
 import { usePurchase } from "@/lib/pi-payment"
 import { useState } from "react"
-// دالة لتنسيق الوقت بالمللي ثانية إلى دقائق وساعات
+
+// دالة تنسيق الوقت في حال عدم وجودها بداخل farm-types
 function formatMs(ms: number): string {
+  if (!ms || ms <= 0) return "0 ثانية"
   const seconds = Math.floor(ms / 1000)
   const minutes = Math.floor(seconds / 60)
   const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+
+  if (days > 0) return `${days} يوم`
   if (hours > 0) return `${hours} ساعة`
   if (minutes > 0) return `${minutes} دقيقة`
   return `${seconds} ثانية`
 }
+
 export function LandBureau() {
   const { state, leaseLand, isLandActive } = useFarm()
   const { makePurchase } = usePurchase()
@@ -64,7 +70,7 @@ export function LandBureau() {
                     {tier.id === "royal" ? "👑" : tier.id === "pasha" ? "🏛️" : tier.id === "estate" ? "🌾" : "🏘️"}
                     {tier.name}
                   </h3>
-                  <p className="text-xs text-muted-foreground mt-1">{tier.blurb}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{(tier as any).blurb || (tier as any).description || ""}</p>
                   {active && (
                     <p className="text-[11px] text-secondary mt-1 font-semibold">
                       {count}/{tier.cap} أصل
