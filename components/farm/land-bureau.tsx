@@ -1,10 +1,18 @@
 "use client"
 
 import { useFarm } from "@/contexts/farm-context"
-import { LAND_TIERS, formatMs } from "@/lib/farm-types"
+import { LAND_TIERS } from "@/lib/farm-types"
 import { usePurchase } from "@/lib/pi-payment"
 import { useState } from "react"
-
+// دالة لتنسيق الوقت بالمللي ثانية إلى دقائق وساعات
+function formatMs(ms: number): string {
+  const seconds = Math.floor(ms / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  if (hours > 0) return `${hours} ساعة`
+  if (minutes > 0) return `${minutes} دقيقة`
+  return `${seconds} ثانية`
+}
 export function LandBureau() {
   const { state, leaseLand, isLandActive } = useFarm()
   const { makePurchase } = usePurchase()
