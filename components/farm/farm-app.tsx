@@ -295,7 +295,7 @@ function Shell() {
 
       {reviving && (
         <LifelineModal
-          asset={state.assets.find((a: OwnedAsset) => a.uid === reviving.uid) || reviving}
+          asset={(state.assets.find((a: OwnedAsset) => a.uid === reviving.uid) || reviving) as OwnedAsset}
           onClose={() => setReviving(null)}
         />
       )}
