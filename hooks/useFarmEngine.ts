@@ -20,10 +20,15 @@ export function useFarmEngine(initialGold: number = 2570, initialPi: number = 0.
       const now = Date.now();
       setFarmState((prev) => ({
         ...prev,
-        placedItems: prev.placedItems.map((item) => {
+        placedItems: (prev.placedItems ?? []).map((item) => {
           if (item.type === 'decoration' || item.assetId === 'diwan') return item;
-          const elapsedSeconds = (now - item.lastHarvestTime) / 1000;
-          if (elapsedSeconds >= item.productionDuration && !item.isReadyToHarvest) {
+          
+          // تأمين القيم لتفادي خطأ Object is possibly 'undefined'
+          const lastHarvest = item.lastHarvestTime ?? now;
+          const duration = item.productionDuration ?? Infinity;
+          
+          const elapsedSeconds = (now - lastHarvest) / 1000;
+          if (elapsedSeconds >= duration && !item.isReadyToHarvest) {
             return { ...item, isReadyToHarvest: true };
           }
           return item;
@@ -51,12 +56,13 @@ export function useFarmEngine(initialGold: number = 2570, initialPi: number = 0.
   }, []);
 
   const harvestItem = (item: PlacedItem) => {
-    if (item.yieldType === 'gold') setGold((g) => g + item.yieldAmount);
-    if (item.yieldType === 'pi') setPi((p) => Number((p + item.yieldAmount).toFixed(2)));
+    // استخدام ?? 0 لضمان وجود قيمة رقمية دائمًا
+    if (item.yieldType === 'gold') setGold((g) => g + (item.yieldAmount ?? 0));
+    if (item.yieldType === 'pi') setPi((p) => Number((p + (item.yieldAmount ?? 0)).toFixed(2)));
     
     setFarmState((prev) => ({
       ...prev,
-      placedItems: prev.placedItems.map((el) =>
+      placedItems: (prev.placedItems ?? []).map((el) =>
         el.instanceId === item.instanceId
           ? { ...el, lastHarvestTime: Date.now(), isReadyToHarvest: false }
           : el
@@ -73,7 +79,7 @@ export function useFarmEngine(initialGold: number = 2570, initialPi: number = 0.
       if (!prev.selectedItemForAction) return prev;
       return {
         ...prev,
-        placedItems: prev.placedItems.map((item) =>
+        placedItems: (prev.placedItems ?? []).map((item) =>
           item.instanceId === prev.selectedItemForAction?.instanceId
             ? { ...item, gridX: newX, gridY: newY }
             : item
@@ -88,11 +94,14 @@ export function useFarmEngine(initialGold: number = 2570, initialPi: number = 0.
     setFarmState((prev) => {
       const target = prev.selectedItemForAction;
       if (!target) return prev;
-      setGold((g) => g + target.refundGold);
-      setPi((p) => Number((p + target.refundPi).toFixed(2)));
+      
+      // حماية المتغيرات لضمان عدم جمع رقم مع undefined
+      setGold((g) => g + (target.refundGold ?? 0));
+      setPi((p) => Number((p + (target.refundPi ?? 0)).toFixed(2)));
+      
       return {
         ...prev,
-        placedItems: prev.placedItems.filter((item) => item.instanceId !== target.instanceId),
+        placedItems: (prev.placedItems ?? []).filter((item) => item.instanceId !== target.instanceId),
         selectedItemForAction: null,
       };
     });
