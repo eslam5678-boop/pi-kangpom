@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 export default function PiKingdomMasterPatch() {
   // 1. حالات النظام العامة
-  const [currentScreen, setCurrentScreen] = useState('splash'); // 'splash' | 'game'
-  const [isNight, setIsNight] = useState(false);
-  const [piBalance, setPiBalance] = useState(150.50);
-  const [goldBalance, setGoldBalance] = useState(5000);
-  const [activeTab, setActiveTab] = useState('farm'); // 'farm' | 'lands' | 'market'
+  const [currentScreen, setCurrentScreen] = useState<'splash' | 'game'>('splash');
+  const [isNight, setIsNight] = useState<boolean>(false);
+  const [piBalance, setPiBalance] = useState<number>(150.50);
+  const [goldBalance, setGoldBalance] = useState<number>(5000);
+  const [activeTab, setActiveTab] = useState<'farm' | 'lands' | 'market'>('farm');
 
   // 2. نظام الحيوانات والصحة (Mortality & Neglect System)
   const [animals, setAnimals] = useState([
@@ -38,7 +38,7 @@ export default function PiKingdomMasterPatch() {
   }, []);
 
   // نظام الإنقاذ البشواتي للحيوانات الشارفة على الموت
-  const rescueAnimal = (id, method) => {
+  const rescueAnimal = (id: number, method: 'pi' | 'ad') => {
     setAnimals(prev => prev.map(anim => {
       if (anim.id === id) {
         if (method === 'pi' && piBalance >= 2) {
@@ -54,7 +54,7 @@ export default function PiKingdomMasterPatch() {
   };
 
   // البيع الفوري في البورصة الرسمية
-  const handleSystemSell = (item, goldYield) => {
+  const handleSystemSell = (item: string, goldYield: number) => {
     setGoldBalance(g => g + goldYield);
     alert(`تم بيع ${item} فوراً للبورصة الملكية مقابل ${goldYield} قطعة ذهبية!`);
   };
@@ -120,7 +120,7 @@ export default function PiKingdomMasterPatch() {
             ].map(tab => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => setActiveTab(tab.id as 'farm' | 'lands' | 'market')}
                 className={`px-5 py-2.5 rounded-xl font-bold transition-all whitespace-nowrap ${activeTab === tab.id ? 'bg-amber-500 text-black shadow-lg' : 'bg-black/30 border border-amber-500/30 text-amber-200 hover:bg-amber-500/10'}`}
               >
                 {tab.label}
