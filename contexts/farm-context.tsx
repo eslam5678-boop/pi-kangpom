@@ -27,7 +27,6 @@ import {
   isHealthCritical,
   resetDailyTasks,
   resetDailyAds,
-  today,
   isNewDay,
   WORKER_STAMINA_DRAIN_PER_FACTORY_JOB,
   WORKER_MIN_STAMINA_FOR_PRODUCTION,
