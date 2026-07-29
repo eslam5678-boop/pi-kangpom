@@ -75,8 +75,8 @@ export interface GameState {
   lastHealthCheckAt: number
 }
 
-// دمج خصائص اللعبة مع خصائص الـ Grid والـ UI لتدعم الـ Hook والـ Context معاً
-export interface FarmState extends GameState {
+// جعل خصائص GameState اختيارية داخل FarmState لحل خطأ التهيئة في الـ Hook
+export interface FarmState extends Partial<GameState> {
   gridColumns?: number
   gridRows?: number
   placedItems?: PlacedItem[]
