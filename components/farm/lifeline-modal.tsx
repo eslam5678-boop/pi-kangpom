@@ -2,8 +2,13 @@
 
 import { useState } from "react"
 import { useFarm } from "@/contexts/farm-context"
-import { assetDef, REVIVE_ADS_REQUIRED, REVIVE_PI_COST, LIFELINE_PRODUCT_ID, type OwnedAsset } from "@/lib/farm-types"
+import { assetDef, type OwnedAsset } from "@/lib/farm-types"
 import { usePurchase, useAds } from "@/lib/pi-payment"
+
+// تعريف الثوابت محلياً لتجنب مشاكل التصدير من ملف الأنواع
+const REVIVE_ADS_REQUIRED = 3
+const REVIVE_PI_COST = 1
+const LIFELINE_PRODUCT_ID = "farm_revive"
 
 export function LifelineModal({
   asset,
