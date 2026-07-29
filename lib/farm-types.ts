@@ -95,7 +95,7 @@ export interface FarmState {
   lastHealthCheckAt?: number
   gridColumns?: number
   gridRows?: number
-  placedItems?: PlacedItem[]
+  placedItems: PlacedItem[] // تم التعديل لتكون إجبارية كما يجب
   selectedItemForAction?: any
   isRelocating?: boolean
   isDiwanModalOpen?: boolean
