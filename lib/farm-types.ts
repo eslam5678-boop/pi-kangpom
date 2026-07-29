@@ -14,6 +14,26 @@ export interface OwnedAsset {
   health: number
 }
 
+// الواجهة المضافة لحل خطأ البناء في ItemActionBanner
+export interface PlacedItem {
+  id: string
+  defId: string
+  x?: number
+  y?: number
+  tileX?: number
+  tileY?: number
+  type?: string
+  name?: string
+  emoji?: string
+  health?: number
+  hunger?: number
+  dead?: boolean
+  sickSince?: number
+  lastFedAt?: number
+  landId?: string
+  [key: string]: any
+}
+
 export interface FactoryJob {
   factoryId: string
   startedAt: number
