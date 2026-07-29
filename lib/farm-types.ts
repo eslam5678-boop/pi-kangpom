@@ -14,7 +14,7 @@ export interface OwnedAsset {
   health: number
 }
 
-// الواجهة المضافة لحل خطأ البناء في ItemActionBanner
+// الواجهة الخاصة بالعناصر الموضوعة في الشبكة
 export interface PlacedItem {
   id: string
   defId: string
@@ -73,6 +73,17 @@ export interface GameState {
   hasSeenOnboarding: boolean
   preferredLanguage: string
   lastHealthCheckAt: number
+}
+
+// دمج خصائص اللعبة مع خصائص الـ Grid والـ UI لتدعم الـ Hook والـ Context معاً
+export interface FarmState extends GameState {
+  gridColumns?: number
+  gridRows?: number
+  placedItems?: PlacedItem[]
+  selectedItemForAction?: any
+  isRelocating?: boolean
+  isDiwanModalOpen?: boolean
+  [key: string]: any
 }
 
 export interface AssetDef {
@@ -234,7 +245,3 @@ export function resetDailyAds(state: GameState): GameState {
     lastAdDate: today(),
   }
 }
-
-// السطرين المضافين لحل مشكلة الـ Hook وتجنب أي خطأ Build
-export type FarmState = GameState;
-export type PlacedItem = OwnedAsset;
