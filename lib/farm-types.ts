@@ -14,7 +14,7 @@ export interface OwnedAsset {
   health: number
 }
 
-// الواجهة الخاصة بالعناصر الموضوعة في الشبكة
+// الواجهة الخاصة بالعناصر الموضوعة في الشبكة (محدثة لتشمل الزراعة والحقول)
 export interface PlacedItem {
   id: string
   defId: string
@@ -31,6 +31,16 @@ export interface PlacedItem {
   sickSince?: number
   lastFedAt?: number
   landId?: string
+
+  // خصائص ميكانيكا الزراعة والحقول
+  soilState?: string
+  growthStage?: number
+  isWatered?: boolean
+  plantedSeedId?: string | null
+  plantedAt?: number | null
+  lastWateredAt?: number
+  lastHarvestTime?: number
+
   [key: string]: any
 }
 
