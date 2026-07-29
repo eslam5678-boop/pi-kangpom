@@ -17,14 +17,6 @@ import { PaymentButton } from "./payment-button"
 import { useTimeTheme } from "@/hooks/use-time-theme"
 import { LANGUAGES, type Language } from "@/lib/farm-i18n"
 import { OwnedAsset } from "@/lib/farm-types"
-export interface OwnedAsset {
-  uid: string;
-  id?: string;
-  name?: string;
-  dead?: boolean;
-  health?: number;
-  [key: string]: any;
-}
 
 type Tab = "game" | "tasks" | "assets" | "land" | "factory" | "kitchen" | "market"
 
