@@ -26,7 +26,7 @@ export default function RootLayout({
       <head>
         <meta httpEquiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; media-src *; frame-ancestors 'self' https://*.pi.network https://*.vercel.app http://localhost:3000;" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=1024, user-scalable=yes, initial-scale=0.3" />
       </head>
       <body className="bg-background text-white min-h-screen">
         <ErrorBoundary>
